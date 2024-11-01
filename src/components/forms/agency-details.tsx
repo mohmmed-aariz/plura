@@ -71,6 +71,7 @@ const AgencyDetails = ({ data }: Props) => {
   const { toast } = useToast()
   const router = useRouter()
   const [deletingAgency, setDeletingAgency] = useState(false)
+
   const form = useForm<z.infer<typeof FormSchema>>({
     mode: 'onChange',
     resolver: zodResolver(FormSchema),
@@ -94,6 +95,90 @@ const AgencyDetails = ({ data }: Props) => {
       form.reset(data)
     }
   }, [data])
+
+  // const handleSubmit = async (values: z.infer<typeof FormSchema>) => {
+  //   try {
+  //     let newUserData
+  //     // let custId
+  //     let customerId
+  //     if (!data?.id) {
+  //       const bodyData = {
+  //         email: values.companyEmail,
+  //         name: values.name,
+  //         shipping: {
+  //           address: {
+  //             city: values.city,
+  //             country: values.country,
+  //             line1: values.address,
+  //             postal_code: values.zipCode,
+  //             state: values.zipCode,
+  //           },
+  //           name: values.name,
+  //         },
+  //         address: {
+  //           city: values.city,
+  //           country: values.country,
+  //           line1: values.address,
+  //           postal_code: values.zipCode,
+  //           state: values.zipCode,
+  //         },
+  //       }
+
+  //       // const customerResponse = await fetch('/api/stripe/create-customer', {
+  //       //   method: 'POST',
+  //       //   headers: {
+  //       //     'Content-Type': 'application/json',
+  //       //   },
+  //       //   body: JSON.stringify(bodyData),
+  //       // })
+  //       // const customerData: { customerId: string } =
+  //       //   // await customerResponse.json()
+  //       // custId = customerData.customerId
+        
+  //       // == custId
+        
+  //     }
+
+  //     // WIP custId
+  //     newUserData = await initUser({ role: 'AGENCY_OWNER' })
+  //     // if (!data?.customerId && !custId) return
+  //     if (!data?.customerId ) return
+
+  //     const response = await upsertAgency({
+  //       id: data?.id ? data.id : v4(),
+  //       // customerId: data?.customerId || custId || '',
+  //       customerId: data?.customerId || custId || '',
+  //       address: values.address,
+  //       agencyLogo: values.agencyLogo,
+  //       city: values.city,
+  //       companyPhone: values.companyPhone,
+  //       country: values.country,
+  //       name: values.name,
+  //       state: values.state,
+  //       whiteLabel: values.whiteLabel,
+  //       zipCode: values.zipCode,
+  //       createdAt: new Date(),
+  //       updatedAt: new Date(),
+  //       companyEmail: values.companyEmail,
+  //       connectAccountId: '',
+  //       goal: 5,
+  //     })
+  //     toast({
+  //       title: 'Created Agency',
+  //     })
+  //     if (data?.id) return router.refresh()
+  //     if (response) {
+  //       return router.refresh()
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //     toast({
+  //       variant: 'destructive',
+  //       title: 'Oppse!',
+  //       description: 'could not create your agency',
+  //     })
+  //   }
+  // }
 
   const handleSubmit = async (values: z.infer<typeof FormSchema>) => {
     try {
@@ -122,6 +207,7 @@ const AgencyDetails = ({ data }: Props) => {
           },
         }
 
+        // as it is a stripe thing so we are skipping this process right here for now
         // const customerResponse = await fetch('/api/stripe/create-customer', {
         //   method: 'POST',
         //   headers: {
@@ -130,42 +216,45 @@ const AgencyDetails = ({ data }: Props) => {
         //   body: JSON.stringify(bodyData),
         // })
         // const customerData: { customerId: string } =
-        //   // await customerResponse.json()
+        //   await customerResponse.json()
         // custId = customerData.customerId
-        
-        // == custId
-        custId = 0;
       }
 
+      // WIP: custId
       newUserData = await initUser({ role: 'AGENCY_OWNER' })
-      if (!data?.customerId && !custId) return
-
-      const response = await upsertAgency({
-        id: data?.id ? data.id : v4(),
-        customerId: data?.customerId || custId || '',
-        address: values.address,
-        agencyLogo: values.agencyLogo,
-        city: values.city,
-        companyPhone: values.companyPhone,
-        country: values.country,
-        name: values.name,
-        state: values.state,
-        whiteLabel: values.whiteLabel,
-        zipCode: values.zipCode,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        companyEmail: values.companyEmail,
-        connectAccountId: '',
-        goal: 5,
-      })
-      toast({
-        title: 'Created Agency',
-      })
-      if (data?.id) return router.refresh()
-      if (response) {
-        return router.refresh()
+      // if (!data?.customerId && !custId) return
+      // if (!data?.customerId ) {
+        if (!data?.id ) {
+          const response = await upsertAgency({
+          id: data?.id ? data.id : v4(), // v4 comes from uuid
+          // customerId: data?.customerId || custId || '',
+          // customerId: data?.customerId,
+          address: values.address,
+          agencyLogo: values.agencyLogo,
+          city: values.city,
+          companyPhone: values.companyPhone,
+          country: values.country,
+          name: values.name,
+          state: values.state,
+          whiteLabel: values.whiteLabel,
+          zipCode: values.zipCode,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          companyEmail: values.companyEmail,
+          connectAccountId: '',
+          goal: 5,
+        })
+        toast({
+          title: 'Created Agency',
+        })
+        if (data?.id) return router.refresh()
+        if (response) {
+          return router.refresh()
+        }
       }
-    } catch (error) {
+
+
+    } catch (error){
       console.log(error)
       toast({
         variant: 'destructive',
@@ -174,6 +263,7 @@ const AgencyDetails = ({ data }: Props) => {
       })
     }
   }
+  
   const handleDeleteAgency = async () => {
     if (!data?.id) return
     setDeletingAgency(true)
@@ -230,6 +320,7 @@ const AgencyDetails = ({ data }: Props) => {
                   </FormItem>
                 )}
               />
+              {/* flex just for styling */}
               <div className="flex md:flex-row gap-4">
                 <FormField
                   disabled={isLoading}
@@ -451,6 +542,7 @@ const AgencyDetails = ({ data }: Props) => {
               </AlertDialogTrigger>
             </div>
           )}
+
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle className="text-left">

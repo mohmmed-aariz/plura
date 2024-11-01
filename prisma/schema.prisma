@@ -86,7 +86,8 @@ model Permissions {
 model Agency {
   id               String                @id @default(uuid())
   connectAccountId String?               @default("")  // needed for strip account. ie. every user can connect their strip account with our app to the application
-  customerId       String                @default("")  // for subscription in our application
+  // customerId       String                @default("")  // for subscription in our application
+  // now do npx prisma generate and npx prisma db push
   name             String
   agencyLogo       String                @db.Text
   companyEmail     String                @db.Text
