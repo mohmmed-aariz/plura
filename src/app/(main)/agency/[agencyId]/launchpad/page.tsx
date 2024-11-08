@@ -109,6 +109,7 @@ const LaunchPadPage = async ({ params, searchParams }: Props) => {
                   dashboard.
                 </p>
               </div>
+              <Button>Start</Button>
               {/* {agencyDetails.connectAccountId || connectedStripeAccount ? (
                 <CheckCircleIcon
                   size={50}
