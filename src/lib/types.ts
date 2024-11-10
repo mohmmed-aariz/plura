@@ -133,15 +133,6 @@ export type ShippingInfo = {
   name: string
 }
 
-// export type StripeCustomerType = {
-//   email: string
-//   name: string
-//   shipping: ShippingInfo
-//   address: Address
-// }
-
-// export type PricesList = Stripe.ApiList<Stripe.Price>
-
 export type FunnelsForSubAccount = Prisma.PromiseReturnType<
   typeof getFunnels
 >[0]

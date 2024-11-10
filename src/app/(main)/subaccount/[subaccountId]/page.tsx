@@ -55,55 +55,6 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
 
   if (!subaccountDetails) return
 
-  // if (subaccountDetails.connectAccountId) {
-  //   const response = await stripe.accounts.retrieve({
-  //     stripeAccount: subaccountDetails.connectAccountId,
-  //   })
-  //   currency = response.default_currency?.toUpperCase() || 'USD'
-  //   const checkoutSessions = await stripe.checkout.sessions.list(
-  //     { created: { gte: startDate, lte: endDate }, limit: 100 },
-  //     {
-  //       stripeAccount: subaccountDetails.connectAccountId,
-  //     }
-  //   )
-  //   sessions = checkoutSessions.data.map((session) => ({
-  //     ...session,
-  //     created: new Date(session.created).toLocaleDateString(),
-  //     amount_total: session.amount_total ? session.amount_total / 100 : 0,
-  //   }))
-
-  //   totalClosedSessions = checkoutSessions.data
-  //     .filter((session) => session.status === 'complete')
-  //     .map((session) => ({
-  //       ...session,
-  //       created: new Date(session.created).toLocaleDateString(),
-  //       amount_total: session.amount_total ? session.amount_total / 100 : 0,
-  //     }))
-
-  //   totalPendingSessions = checkoutSessions.data
-  //     .filter(
-  //       (session) => session.status === 'open' || session.status === 'expired'
-  //     )
-  //     .map((session) => ({
-  //       ...session,
-  //       created: new Date(session.created).toLocaleDateString(),
-  //       amount_total: session.amount_total ? session.amount_total / 100 : 0,
-  //     }))
-
-  //   net = +totalClosedSessions
-  //     .reduce((total, session) => total + (session.amount_total || 0), 0)
-  //     .toFixed(2)
-
-  //   potentialIncome = +totalPendingSessions
-  //     .reduce((total, session) => total + (session.amount_total || 0), 0)
-  //     .toFixed(2)
-
-  //   closingRate = +(
-  //     (totalClosedSessions.length / checkoutSessions.data.length) *
-  //     100
-  //   ).toFixed(2)
-  // }
-
   const funnels = await db.funnel.findMany({
     where: {
       subAccountId: params.subaccountId,
@@ -124,25 +75,7 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
   return (
     <BlurPage>
       <div className="relative h-full">
-        {/* {!subaccountDetails.connectAccountId && (
-          <div className="absolute -top-10 -left-10 right-0 bottom-0 z-30 flex items-center justify-center backdrop-blur-md bg-background/50">
-            <Card>
-              <CardHeader>
-                <CardTitle>Connect Your Stripe</CardTitle>
-                <CardDescription>
-                  You need to connect your stripe account to see metrics
-                </CardDescription>
-                <Link
-                  href={`/subaccount/${subaccountDetails.id}/launchpad`}
-                  className="p-2 w-fit bg-secondary text-white rounded-md flex items-center gap-2"
-                >
-                  <ClipboardIcon />
-                  Launch Pad
-                </Link>
-              </CardHeader>
-            </Card>
-          </div>
-        )} */}
+        {}
         <div className="flex flex-col gap-4 pb-6">
           <div className="flex gap-4 flex-col xl:!flex-row">
 
@@ -167,9 +100,7 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
               <CardHeader>
                 <CardDescription>Potential Income</CardDescription>
                 <CardTitle className="text-4xl">
-                  {/* {potentialIncome
-                    ? `${currency} ${potentialIncome.toFixed(2)}`
-                    : `$0.00`} */}
+                  {}
                   {`$0.00`}
                 </CardTitle>
                 <small className="text-xs text-muted-foreground">
@@ -182,55 +113,14 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
               <Contact2 className="absolute right-4 top-4 text-muted-foreground" />
             </Card>
 
-            {/* <PipelineValue subaccountId={params.subaccountId} /> */}
+            {}
 
-            {/* <Card className="xl:w-fit">
-              <CardHeader>
-                <CardDescription>Conversions</CardDescription>
-                <CircleProgress
-                  value={closingRate}
-                  description={
-                    <>
-                      {sessions && (
-                        <div className="flex flex-col">
-                          Total Carts Opened
-                          <div className="flex gap-2">
-                            <ShoppingCart className="text-rose-700" />
-                            {sessions.length}
-                          </div>
-                        </div>
-                      )}
-                      {totalClosedSessions && (
-                        <div className="flex flex-col">
-                          Won Carts
-                          <div className="flex gap-2">
-                            <ShoppingCart className="text-emerald-700" />
-                            {totalClosedSessions.length}
-                          </div>
-                        </div>
-                      )}
-                    </>
-                  }
-                />
-              </CardHeader>
-            </Card> */}
+            {}
           </div>
 
           <div className="flex gap-4 flex-col xl:!flex-row">
 
-            {/* <Card className="relative">
-              <CardHeader>
-                <CardDescription>Funnel Performance</CardDescription>
-              </CardHeader>
-              <CardContent className=" text-sm text-muted-foreground flex flex-col gap-12 justify-between ">
-                <SubaccountFunnelChart data={funnelPerformanceMetrics} />
-                <div className="lg:w-[150px]">
-                  Total page visits across all funnels. Hover over to get more
-                  details on funnel page performance.
-                </div>
-              </CardContent>
-              <Contact2 className="absolute right-4 top-4 text-muted-foreground" />
-            </Card> */}
+            {}
             <Card className="p-4 flex-1">
               <CardHeader>
                 <CardTitle>Checkout Activity</CardTitle>
@@ -271,30 +161,7 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
                     </TableRow>
                   </TableHeader>
                   <TableBody className="font-medium truncate">
-                    {/* {totalClosedSessions
-                      ? totalClosedSessions.map((session) => (
-                          <TableRow key={session.id}>
-                            <TableCell>
-                              {session.customer_details?.email || '-'}
-                            </TableCell>
-                            <TableCell>
-                              <Badge className="bg-emerald-500 dark:text-black">
-                                Paid
-                              </Badge>
-                            </TableCell>
-                            <TableCell>
-                              {new Date(session.created).toUTCString()}
-                            </TableCell>
-
-                            <TableCell className="text-right">
-                              <small>{currency}</small>{' '}
-                              <span className="text-emerald-500">
-                                {session.amount_total}
-                              </span>
-                            </TableCell>
-                          </TableRow>
-                        ))
-                      : 'No Data'} */}
+                    {}
                     'No Data'
                   </TableBody>
                 </Table>
