@@ -30,10 +30,12 @@ export default async function Home() {
         </div>
         <div className="flex justify-center items-center relative md:mt-[-70px]">
           <Image
-            src={'/assets/preview.png'}
+            src={'/assets/preview2.png'}
             alt="banner image"
-            height={1200}
-            width={1200}
+            // height={1200}
+            // width={1200}
+            height={900}
+            width={900}
             className="rounded-tl-2xl rounded-tr-2xl border-2 border-muted"
           />
           <div className="bottom-0 top-[50%] bg-gradient-to-t dark:from-background left-0 right-0 absolute z-10"></div>
